@@ -1,0 +1,376 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Admin</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="icon" href="{% static 'admin/favicon.ico' %}" type="image/x-icon" />
+    
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800" rel="stylesheet">
+        
+        <link rel="stylesheet" href="{% static 'admin/node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/node_modules/@fortawesome/fontawesome-free/css/all.min.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/node_modules/icon-kit/dist/css/iconkit.min.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/node_modules/ionicons/dist/css/ionicons.min.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/node_modules/perfect-scrollbar/css/perfect-scrollbar.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/node_modules/jvectormap/jquery-jvectormap.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/node_modules/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/node_modules/weather-icons/css/weather-icons.min.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/node_modules/c3/c3.min.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/node_modules/perfect-scrollbar/css/perfect-scrollbar.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/node_modules/owl.carousel/dist/assets/owl.carousel.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/node_modules/owl.carousel/dist/assets/owl.theme.default.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/dist/css/theme.min.css' %}">
+        <script src="{% static 'admin/src/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+    </head>
+
+    <body>
+        {% if messages %}
+    {% for message in messages %}
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+    <script>swal({
+            title: "Success!",
+            text: "{{message}}",
+            icon: "success",
+            button: "OK",
+        });
+    </script>
+    
+    {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+    <script>swal({
+            title: "Warning :)",
+            text: "{{message}}",
+            icon: "warning",
+            button: "OK",
+         
+        });
+    </script>
+    {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+    <script>swal({
+            title: "info :)",
+            text: "{{message}}",
+            icon: "info",
+            button: "OK",
+        });
+    </script>
+    {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+    <script>swal({
+            title: "error :)",
+            text: "{{message}}",
+            icon: "error",
+            button: "OK",
+        });
+    </script>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div class="wrapper">
+            <header class="header-top" header-theme="light">
+                <div class="container-fluid">
+                    <div class="d-flex justify-content-between">
+                        <div class="top-menu d-flex align-items-center">
+                            <button type="button" class="btn-icon mobile-nav-toggle d-lg-none"><span></span></button>
+                            <div class="header-search">
+                                <div class="input-group">
+                                    <span class="input-group-addon search-close"><i class="ik ik-x"></i></span>
+                                    <input type="text" class="form-control">
+                                    <span class="input-group-addon search-btn"><i class="ik ik-search"></i></span>
+                                </div>
+                            </div>
+                            <button type="button" id="navbar-fullscreen" class="nav-link"><i class="ik ik-maximize"></i></button>
+                        </div>
+                        <div class="top-menu d-flex align-items-center">
+                           
+                            
+                            
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar" src="{% static 'admin/img/fig1.jpg' %}" alt=""></a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                                   
+                                    <a class="dropdown-item" href="{% url "user_index" %}"><i class="ik ik-power dropdown-icon"></i> Logout</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-wrap">
+                <div class="app-sidebar colored">
+                    <div class="sidebar-header">
+                        <a class="header-brand" href="index.html">
+                            <!-- <div class="logo-img">
+                                <img src="{% static 'admin/img/fig2.jpg' %}" class="header-brand-img" style="height:100px;width:100px; padding-right:10px;" alt="lavalite"> 
+                            </div> -->
+                            
+                        </a>
+                        <button type="button" class="nav-toggle"><i data-toggle="expanded" class="ik ik-toggle-right toggle-icon"></i></button>
+                        <button id="sidebarClose" class="nav-close"><i class="ik ik-x"></i></button>
+                    </div>
+                    
+                    <div class="sidebar-content">
+                        <div class="nav-container">
+                                <nav id="main-menu-navigation" class="navigation-main">
+                                <div class="nav-lavel">Dashboard</div>
+                                <div class="nav-item active">
+                                    <a href="{% url 'admin_dashboard' %}"><i class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
+                                </div>
+                                
+                                <div class="nav-item has-sub">
+                                    <a href="javascript:void(0)"><i class="ik ik-layers"></i><span>User Management</span></a>
+                                    <div class="submenu-content">
+                                        <a href="{% url 'admin_pendingusers' %}" class="menu-item">Pending users</a>
+                                        <a href="{% url 'all_users' %}" class="menu-item">All Users</a>
+                                    </div>
+                                </div>
+                                <div class="nav-item has-sub">
+                                    <a href="#"><i class="ik ik-box"></i><span>Dataset</span></a>
+                                    <div class="submenu-content">
+                                        <a href="{% url 'upload_dataset' %}" class="menu-item">Upload Dataset</a>
+                                        <a href="{% url 'viewdataset' %}" class="menu-item">View Dataset</a>
+                                       
+                                    </div>
+                                </div>
+                                <div class="nav-item has-sub">
+                                        <a href="#"><i class="ik ik-command"></i><span>Algorithm</span></a>
+                                    <div class="submenu-content">
+                                        <a href="{% url 'xgbalgm' %}" class="menu-item">XG-Boost Algorithm</a>
+                                        <a href="{% url 'adabalgm' %}" class="menu-item">ADA-Boost Algorithm</a>
+                                        <a href="{% url 'knnalgm' %}" class="menu-item">KNN Algorithm</a>
+                                        <a href="{% url 'gdalgm' %}" class="menu-item">GD Boost Algorithm</a>
+                                        <a href="{% url 'dtalgm' %}" class="menu-item">Decission Tree Algorithm</a>
+                                        <a href="{% url 'logistic' %}" class="menu-item">Logistic Regression</a>
+                                        <a href="{% url 'random' %}" class="menu-item">Random Forest Algorithm</a>
+                                        <a href="{% url 'bilstm_cnn' %}" class="menu-item">BiLSTM+CNN</a>
+                                    </div>
+                                </div>
+                                <div class="nav-item has-sub">
+                                    <a href="#"><i class="ik ik-package"></i><span>Comparisson Graph</span></a>
+                                    <div class="submenu-content">
+                                        <a href="{% url 'admin_graph' %}" class="menu-item">Graph</a>
+                                    </div>
+                                </div>
+                                <div class="nav-item has-sub">
+                                    
+                                    <div class="submenu-content">
+                                        <a href="pages/charts-chartist.html" class="menu-item active">Chartist</a>
+                                        <a href="pages/charts-flot.html" class="menu-item">Flot</a>
+                                        <a href="pages/charts-knob.html" class="menu-item">Knob</a>
+                                        <a href="pages/charts-amcharts.html" class="menu-item">Amcharts</a>
+                                    </div>
+                                </div>
+                                <div class="nav-item has-sub">
+                                    <a href="#"><i class="ik ik-file-text"></i><span>User Feedbacks</span></a>
+                                    <div class="submenu-content">
+                                        <a href="{% url 'user_feedbacks' %}" class="menu-item">Feedbacks</a>
+                                        <a href="{% url 'user_sentiment' %}" class="menu-item">Sentiment Analysis</a>
+                                        <a href="{% url 'user_graph' %}" class="menu-item">Feedbacks Graph Analysis</a>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-content">
+                    <div class="container-fluid">
+                       
+                        <div class="card">
+                               
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>User Id</th>
+                                        <th>Photo</th>
+                                        <th>Username</th>
+                                        <th>Rating</th>
+                                        <th>Feedback</th>
+                                        <th>Status</th>
+                                        <th>Emojis</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        {% for i in back %}
+    
+                                        <td>{{forloop.counter}}</td>
+                                        <td><img src="/media/{{i.user_details.user_image}}" class="product-img"
+                                            alt="product img" style="height:40px;width:40px;border-radius:20px"></td>
+                                                <td>{{i.user_details.user_username}}</td>
+                                                <td>{{i.star_rating}}</td>
+                                                <td>{{i.star_feedback}}</td>
+                                                {% comment %} <td><span class="emoji" style="font-size: 2em;">🥳</span></td> {% endcomment %}
+                            <td style="color: rgb(0, 0, 0);">{% if i.sentment == 'positive' %}
+                                <p style="font-size:20px">positive</p>
+                                {% elif i.sentment == 'very positive' %}
+                                <p style="font-size:20px">very positive</p>
+                                {% elif i.sentment == 'negative' %}
+                                <p style="font-size:20px">negative</p>
+                                {% elif i.sentment == 'very negative' %}
+                                <p style="font-size:20px">very negative</p>
+                                {% else %}
+                                <p style="font-size:20px">neutral</p>
+                                {% endif %}
+                              </td>
+                              <td style="color: rgb(0, 0, 0);">
+                                {% if i.sentment == 'positive' %}
+                                <p style="font-size:30px">&#128512;</p>
+                                {% elif i.sentment == 'very positive' %}
+                                <p style="font-size:30px">&#128522;</p>
+                                {% elif i.sentment == 'negative' %}
+                                <p style="font-size:30px">&#129324;</p>
+                                {% elif i.sentment == 'very negative' %}
+                                <p style="font-size:30px">&#128545;</p>
+                                {% else %}
+                                <p style="font-size:30px">&#128528;</p>
+                                {% endif %}
+                              </td>
+                            </tr>
+                            {% endfor %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-panel" hidden>
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <a href="javascript:void(0);"><i class="ik ik-message-square text-success"></i></a>  
+                            <span class="user-name">John Doe</span> 
+                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        </div>
+                        <div class="card-body">
+                            <div class="widget-chat-activity flex-1">
+                                <div class="messages">
+                                    <div class="message media reply">
+                                        <figure class="user--online">
+                                            <a href="#">
+                                                <img src="img/users/3.jpg" class="rounded-circle" alt="">
+                                            </a>
+                                        </figure>
+                                        <div class="message-body media-body">
+                                            <p>Epic Cheeseburgers come in all kind of styles.</p>
+                                        </div>
+                                    </div>
+                                    <div class="message media">
+                                        <figure class="user--online">
+                                            <a href="#">
+                                                <img src="img/users/1.jpg" class="rounded-circle" alt="">
+                                            </a>
+                                        </figure>
+                                        <div class="message-body media-body">
+                                            <p>Cheeseburgers make your knees weak.</p>
+                                        </div>
+                                    </div>
+                                    <div class="message media reply">
+                                        <figure class="user--offline">
+                                            <a href="#">
+                                                <img src="img/users/5.jpg" class="rounded-circle" alt="">
+                                            </a>
+                                        </figure>
+                                        <div class="message-body media-body">
+                                            <p>Cheeseburgers will never let you down.</p>
+                                            <p>They'll also never run around or desert you.</p>
+                                        </div>
+                                    </div>
+                                    <div class="message media">
+                                        <figure class="user--online">
+                                            <a href="#">
+                                                <img src="img/users/1.jpg" class="rounded-circle" alt="">
+                                            </a>
+                                        </figure>
+                                        <div class="message-body media-body">
+                                            <p>A great cheeseburger is a gastronomical event.</p>
+                                        </div>
+                                    </div>
+                                    <div class="message media reply">
+                                        <figure class="user--busy">
+                                            <a href="#">
+                                                <img src="img/users/5.jpg" class="rounded-circle" alt="">
+                                            </a>
+                                        </figure>
+                                        <div class="message-body media-body">
+                                            <p>There's a cheesy incarnation waiting for you no matter what you palete preferences are.</p>
+                                        </div>
+                                    </div>
+                                    <div class="message media">
+                                        <figure class="user--online">
+                                            <a href="#">
+                                                <img src="img/users/1.jpg" class="rounded-circle" alt="">
+                                            </a>
+                                        </figure>
+                                        <div class="message-body media-body">
+                                            <p>If you are a vegan, we are sorry for you loss.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <form action="javascript:void(0)" class="card-footer" method="post">
+                            <div class="d-flex justify-content-end">
+                                <textarea class="border-0 flex-1" rows="1" placeholder="Type your message here"></textarea>
+                                <button class="btn btn-icon" type="submit"><i class="ik ik-arrow-right text-success"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <footer class="footer">
+                    <div class="w-100 clearfix">
+                        <span class="text-center text-sm-left d-md-inline-block">Copyright © 2024 Codebook.in All Rights Reserved.</span>
+                        <span class="float-none float-sm-right mt-1 mt-sm-0 text-center">Crafted with <i class="fa fa-heart text-danger"></i> by <a href="https://www.codebook.in/" class="text-dark" target="_blank">Codebook.in</a></span>
+                    </div>
+                </footer>
+                
+            </div>
+        </div>
+        
+        
+        
+
+        
+        
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>window.jQuery || document.write('<script src="src/js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+        <script src="{% static 'admin/node_modules/popper.js/dist/umd/popper.min.js' %}"></script>
+        <script src="{% static 'admin/node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'admin/node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js' %}"></script>
+        <script src="{% static 'admin/node_modules/screenfull/dist/screenfull.js' %}"></script>
+        <script src="{% static 'admin/node_modules/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'admin/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'admin/node_modules/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'admin/node_modules/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'admin/node_modules/jvectormap/jquery-jvectormap.min.js' %}"></script>
+        <script src="{% static 'admin/node_modules/jvectormap/tests/assets/jquery-jvectormap-world-mill-en.js' %}"></script>
+        <script src="{% static 'admin/node_modules/moment/moment.js' %}"></script>
+        <script src="{% static 'admin/node_modules/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+        <script src="{% static 'admin/node_modules/d3/dist/d3.min.js' %}"></script>
+        <script src="{% static 'admin/node_modules/c3/c3.min.js' %}"></script>
+        <script src="{% static 'admin/js/tables.js' %}"></script>
+        <script src="{% static 'admin/js/widgets.js' %}"></script>
+        <script src="{% static 'admin/js/charts.js' %}"></script>
+        <script src="{% static 'admin/dist/js/theme.min.js' %}"></script>
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+        </script>
+    </body>
+</html>
